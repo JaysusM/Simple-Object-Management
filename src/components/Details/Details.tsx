@@ -7,7 +7,10 @@ import AppBar from "../AppBar/AppBar";
 import AddFab from "../AddFab/AddFab";
 import ObjectItem from "../Objects/ObjectItem/ObjectItem";
 import { ObjectModel } from "../../models/ObjectModel";
-import { deleteRelationship, deleteSelectedObject } from "../../actions/object/actions";
+import {
+  deleteRelationship,
+  deleteSelectedObject
+} from "../../actions/object/actions";
 
 interface DetailsProps {
   history: {
@@ -33,9 +36,9 @@ const Details = (props: DetailsProps) => {
   };
 
   const onBack = () => {
-      dispatch(deleteSelectedObject());
-      props.history.push("/");
-  }
+    dispatch(deleteSelectedObject());
+    props.history.push("/");
+  };
 
   return (
     <div>
@@ -51,15 +54,17 @@ const Details = (props: DetailsProps) => {
         <AddFab onClick={() => props.history.push("/add/relationship")} />
         <h1>Relationships</h1>
         <div className="relationships-container">
-          {selectedObject.relationships.map((id: number) => {
+          {selectedObject.relationships.map((id: number, index: number) => {
             const object: ObjectModel | undefined = findObjectById(id);
-            if (!object) return <div />;
+            if (!object) return <div key={index}/>;
             return (
-              <ObjectItem
-                key={object.id ?? 0}
-                object={object}
-                onDelete={() => onDeleteRelationship(id)}
-              />
+                <div key={index} className="object-relationship">
+                <ObjectItem
+                  key={-index}
+                  object={object}
+                  onDelete={() => onDeleteRelationship(id)}
+                />
+                </div>
             );
           })}
         </div>

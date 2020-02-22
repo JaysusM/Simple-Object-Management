@@ -25,10 +25,10 @@ const Details = (props: DetailsProps) => {
   if (!selectedObject) return <Redirect to="/" />;
 
   const objectsNotRelationed = () => {
-    console.log(objects);
     return objects.filter(
       (value: ObjectModel) =>
-        !selectedObject?.relationships.includes(value.id ?? -1) && value.id !== selectedObject.id
+        !selectedObject?.relationships.includes(value.id ?? -1) &&
+        value.id !== selectedObject.id
     );
   };
 
@@ -44,12 +44,20 @@ const Details = (props: DetailsProps) => {
   };
 
   const handleChange = (e: any) => {
-    setSelected(e.target.value);
+    const value = e.target.value;
+    if(value !== "undefined")
+        setSelected(value);
+    else
+        setSelected(undefined)
   };
 
   return (
     <div>
-      <AppBar title="Add Relationship" showBack={true} onBack={() => props.history.push("/details")}/>
+      <AppBar
+        title="Add Relationship"
+        showBack={true}
+        onBack={() => props.history.push("/details")}
+      />
       <div className="main-relationship-container">
         <div>
           <ObjectItem
@@ -61,9 +69,9 @@ const Details = (props: DetailsProps) => {
         <div className="relationship-container">
           <h2>Object:</h2>
           <select value={selected} onChange={handleChange}>
-            <option value={undefined}>-</option>
-            {objectsNotRelationed().map((value: ObjectModel) => (
-              <option value={value.id}>{value.type + ": " + value.name}</option>
+            <option value={"undefined"}>-</option>
+            {objectsNotRelationed().map((value: ObjectModel, index: number) => (
+              <option key={index} value={value.id}>{value.type + ": " + value.name}</option>
             ))}
           </select>
           <div className="buttons-container">

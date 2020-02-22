@@ -27,17 +27,13 @@ const ObjectItem: React.FunctionComponent<ObjectItemProps &
   };
 
   const handleClick = (e: any) => {
+    e.preventDefault();
+    e.stopPropagation();
     if (e.target.id === "burger-icon") {
-      e.preventDefault();
-      e.stopPropagation();
       setShowOptions(!showOptions);
     } else if (e.target.id === "edit") {
-      e.preventDefault();
-      e.stopPropagation();
       if (props.onEdit) props.onEdit();
     } else if (e.target.id === "delete") {
-      e.preventDefault();
-      e.stopPropagation();
       if (props.onDelete) props.onDelete();
     } else {
       onItemClicked();
