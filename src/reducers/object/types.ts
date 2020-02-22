@@ -31,7 +31,8 @@ interface DeleteRelationshipObjectAction {
 }
 
 export interface ObjectState {
-    objects: ObjectModel[]
+    objects: ObjectModel[],
+    selectedObject?: ObjectModel
 }
 
 export type ObjectAction = AddObjectAction | EditObjectAction | DeleteObjectAction | AddRelationshipObjectAction | DeleteRelationshipObjectAction

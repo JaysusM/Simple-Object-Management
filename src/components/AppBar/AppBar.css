@@ -1,0 +1,15 @@
+.appbar-container {
+  height: 50px;
+  background-color: #ffffff;
+  color: black;
+  -webkit-box-shadow: 0px -5px 5px 7px rgba(0, 0, 0, 0.75);
+  -moz-box-shadow: 0px -5px 5px 7px rgba(0, 0, 0, 0.75);
+  box-shadow: 0px -5px 5px 7px rgba(0, 0, 0, 0.75);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.title {
+    color: black;
+}

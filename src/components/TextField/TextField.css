@@ -1,0 +1,14 @@
+.textfield-container {
+    display: flex;
+    margin: 10px;
+}
+
+.textfield {
+    flex: 1;
+    padding: 7px 10px;
+    border: 1px solid #868686;
+}
+
+.textfield::placeholder {
+    color: #868686;
+}
