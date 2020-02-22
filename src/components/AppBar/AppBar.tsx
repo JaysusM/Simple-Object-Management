@@ -1,14 +1,19 @@
 import React from "react";
 import "./AppBar.css";
 
-export interface AppBarProps {
-  title: string
+interface AppBarProps {
+  title: string;
+  showBack?: boolean;
+  onBack?: () => void;
 }
 
 const AppBar = (props: AppBarProps) => {
   return (
-    <div className="appbar-container">
-      <div className="title">{props.title}</div>
+    <div>
+      <div className="appbar-container">
+      {props.showBack && <img alt="back" onClick={props.onBack} src="/back.svg" className="back-button" />}
+        <div className="title">{props.title}</div>
+      </div>
     </div>
   );
 };

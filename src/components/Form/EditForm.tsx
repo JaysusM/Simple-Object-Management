@@ -1,16 +1,42 @@
 import React from "react";
 import Form from "./Form";
 import { ObjectModel } from "../../models/ObjectModel";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { ObjectState } from "../../reducers/object/types";
-import { Redirect } from "react-router-dom";
+import { Redirect, withRouter } from "react-router-dom";
+import { editObject, deleteSelectedObject } from "../../actions/object/actions";
 
-const EditForm = () => {
+interface EditForm {
+  history: {
+    push: (url: string) => void;
+  };
+}
+
+const EditForm = (props: EditForm) => {
   const selectedObject: ObjectModel | undefined = useSelector(
     (state: ObjectState) => state.selectedObject
   );
+  const dispatch = useDispatch();
+
+  const clearFunction = () => {
+    dispatch(deleteSelectedObject());
+  };
+
+  const onBack = () => {
+    clearFunction();
+    props.history.push("/");
+  };
+
   if (!selectedObject) return <Redirect to="/" />;
-  return <Form title="Edit Object" object={selectedObject} />;
+  return (
+    <Form
+      onBack={onBack}
+      clearFunction={clearFunction}
+      actionFunction={editObject}
+      title="Edit Object"
+      object={selectedObject}
+    />
+  );
 };
 
-export default EditForm;
+export default withRouter(EditForm);

@@ -1,7 +1,7 @@
 import React, { ChangeEvent } from "react";
 import "./TextField.css";
 
-export interface TextFieldProps {
+interface TextFieldProps {
   placeholder: string,
   fieldName: string,
   change: (fieldname: string, value: string) => void,

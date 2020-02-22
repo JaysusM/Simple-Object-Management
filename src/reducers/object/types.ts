@@ -4,6 +4,8 @@ export const DELETE_OBJECT: string = 'DELETE_OBJECT';
 export const EDIT_OBJECT: string = 'EDIT_OBJECT';
 export const ADD_RELATIONSHIP_OBJECT: string = 'ADD_RELATIONSHIP_OBJECT';
 export const DELETE_RELATIONSHIP_OBJECT: string = 'DELETE_RELATIONSHIP_OBJECT';
+export const SET_SELECTED_OBJECT: string = 'SET_SELECTED_OBJECT';
+export const DELETE_SELECTED_OBJECT: string = 'DELETE_SELECTED_OBJECT';
 
 interface AddObjectAction {
     type: typeof ADD_OBJECT,
@@ -30,9 +32,20 @@ interface DeleteRelationshipObjectAction {
     payload: ObjectModelRelationship
 }
 
+interface SetSelectedObjectAction {
+    type: typeof SET_SELECTED_OBJECT,
+    payload: ObjectModel
+}
+
+interface DeleteSelectedObjectAction {
+    type: typeof DELETE_SELECTED_OBJECT,
+    payload: null
+}
+
 export interface ObjectState {
     objects: ObjectModel[],
     selectedObject?: ObjectModel
 }
 
-export type ObjectAction = AddObjectAction | EditObjectAction | DeleteObjectAction | AddRelationshipObjectAction | DeleteRelationshipObjectAction
+
+export type ObjectActionTypes = AddObjectAction | EditObjectAction | DeleteObjectAction | AddRelationshipObjectAction | DeleteRelationshipObjectAction | SetSelectedObjectAction | DeleteSelectedObjectAction

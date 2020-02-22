@@ -7,14 +7,16 @@ import { ObjectModel } from "../../models/ObjectModel";
 import { isEmpty } from "underscore";
 import { withRouter, RouteComponentProps } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { addObject } from "../../actions/object/actions";
 
-export interface FormProps {
+interface FormProps {
   history: {
     push: (url: string) => void;
   },
   object?: ObjectModel,
-  title?: string
+  title?: string,
+  actionFunction: (value: any) => void,
+  clearFunction?: () => void,
+  onBack: () => void;
 }
 
 const initialObject: ObjectModel = {
@@ -39,7 +41,9 @@ const Form: React.FunctionComponent<FormProps & RouteComponentProps> = (props: F
     ) {
       setError("Fill all the fields first, please");
     } else {
-      dispatch(addObject(object));
+      dispatch(props.actionFunction(object));
+      if(props.clearFunction)
+        props.clearFunction()
       props.history.push("/");
     }
   };
@@ -50,7 +54,7 @@ const Form: React.FunctionComponent<FormProps & RouteComponentProps> = (props: F
 
   return (
     <div>
-      {props.title && <AppBar title={props.title} />}
+      {props.title && <AppBar showBack={true} onBack={props.onBack} title={props.title} />}
       <div className="floating-panel">
         <div className="panel-content">
           <p className="field-name">Type: </p>

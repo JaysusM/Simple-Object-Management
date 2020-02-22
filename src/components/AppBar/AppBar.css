@@ -13,3 +13,10 @@
 .title {
     color: black;
 }
+
+.back-button {
+  height: 20px;
+  position: absolute;
+  left: 15px;
+  cursor: pointer;
+}

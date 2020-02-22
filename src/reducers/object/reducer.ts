@@ -1,28 +1,36 @@
-import { ObjectModel, ObjectModelRelationship } from "./../../models/ObjectModel";
+import {
+  ObjectModel,
+  ObjectModelRelationship
+} from "./../../models/ObjectModel";
 import {
   ObjectState,
-  ObjectAction,
+  ObjectActionTypes,
   ADD_OBJECT,
   EDIT_OBJECT,
   DELETE_OBJECT,
   ADD_RELATIONSHIP_OBJECT,
-  DELETE_RELATIONSHIP_OBJECT
+  DELETE_RELATIONSHIP_OBJECT,
+  SET_SELECTED_OBJECT,
+  DELETE_SELECTED_OBJECT
 } from "./types";
 import { reject, without, contains, max, isEmpty } from "underscore";
 import { loadDataFromStorage } from "../../utils/storage";
 
 const objectReducer = (
   state: ObjectState = loadDataFromStorage(),
-  action: ObjectAction
+  action: ObjectActionTypes
 ): ObjectState => {
   switch (action.type) {
     case ADD_OBJECT: {
       let payload: ObjectModel = action.payload as ObjectModel;
-      const ids: number[] = state.objects.map((value: ObjectModel) => value.id ?? -1)
-      const id: number = (isEmpty(ids)) ? 0 : max(ids) + 1;
+      const ids: number[] = state.objects.map(
+        (value: ObjectModel) => value.id ?? -1
+      );
+      const id: number = isEmpty(ids) ? 0 : max(ids) + 1;
       payload.id = id;
       return {
-        objects: [ ...state.objects, payload ]
+        objects: [...state.objects, payload],
+        selectedObject: state.selectedObject
       };
     }
     case EDIT_OBJECT: {
@@ -31,7 +39,8 @@ const objectReducer = (
         object.id === payload.id ? { ...object, ...payload } : object
       );
       return {
-        objects: [ ...objects ]
+        objects: [...objects],
+        selectedObject: state.selectedObject
       };
     }
     case DELETE_OBJECT: {
@@ -44,27 +53,37 @@ const objectReducer = (
         (value: ObjectModel) =>
           (value.relationships = without(value.relationships, payload))
       );
-      return { objects: objects };
+      return { objects: objects, selectedObject: state.selectedObject };
     }
     case ADD_RELATIONSHIP_OBJECT: {
       let payload: ObjectModelRelationship = action.payload as ObjectModelRelationship;
       let objects: ObjectModel[] = [...state.objects];
       objects.forEach((value: ObjectModel) => {
-          if(value.id === payload.parentId && !contains(value.relationships, payload.childId)) {
-            value.relationships.push(payload.childId)
-          }
+        if (
+          value.id === payload.parentId &&
+          !contains(value.relationships, payload.childId)
+        ) {
+          value.relationships.push(payload.childId);
+        }
       });
-      return { objects: objects };
+      return { objects: objects, selectedObject: state.selectedObject };
     }
     case DELETE_RELATIONSHIP_OBJECT: {
-        let payload: ObjectModelRelationship = action.payload as ObjectModelRelationship;
-        let objects: ObjectModel[] = [...state.objects];
-        objects.forEach((value: ObjectModel) => {
-            if(value.id === payload.parentId) {
-              value.relationships = without(value.relationships, payload.childId);
-            }
-        });
-        return { objects: objects };
+      let payload: ObjectModelRelationship = action.payload as ObjectModelRelationship;
+      let objects: ObjectModel[] = [...state.objects];
+      objects.forEach((value: ObjectModel) => {
+        if (value.id === payload.parentId) {
+          value.relationships = without(value.relationships, payload.childId);
+        }
+      });
+      return { objects: objects, selectedObject: state.selectedObject };
+    }
+    case SET_SELECTED_OBJECT: {
+      let payload: ObjectModel = action.payload as ObjectModel;
+      return { objects: state.objects, selectedObject: payload };
+    }
+    case DELETE_SELECTED_OBJECT: {
+        return { objects: state.objects, selectedObject: undefined };
       }
     default: {
       return state;

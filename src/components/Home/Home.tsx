@@ -1,19 +1,32 @@
-import React from "react";
+import React, { useState } from "react";
 import "./Home.css";
 import AppBar from "../AppBar/AppBar";
 import TextField from "../TextField/TextField";
 import AddFab from "../AddFab/AddFab";
 import Objects from "../Objects/Objects";
+import { withRouter } from "react-router-dom";
 
-const Home = () => {
+interface HomeProps {
+  history: {
+    push: (url: string) => void;
+  },
+}
+
+const Home = (props: HomeProps) => {
+  const [filter, setFilter] = useState("");
+
+  const onSearchChanged = (fieldname: string, value: string) => {
+    setFilter(value);
+  }
+
   return (
     <div>
       <AppBar title="Objects"/>
-      <TextField fieldName="searchbar" change={(x,y) => {}} placeholder="Search by object..."/>
-      <AddFab />
-      <Objects />
+      <TextField fieldName="searchbar" change={onSearchChanged} placeholder="Search by object..."/>
+      <AddFab onClick={() => props.history.push("/add")}/>
+      <Objects filter={filter}/>
     </div>
   );
 };
 
-export default Home;
+export default withRouter(Home);

@@ -1,0 +1,20 @@
+.main-relationship-container {
+  margin: 30px;
+}
+
+.relationship-container {
+  display: flex;
+  flex-direction: column;
+  align-content: flex-start;
+  width: 33%;
+}
+
+.buttons-container {
+    display: flex;
+    justify-content: center;
+}
+
+.button {
+    width: fit-content;
+    margin: 5px;
+}

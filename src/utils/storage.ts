@@ -9,5 +9,6 @@ export const loadDataFromStorage = (): ObjectState => {
 };
 
 export const saveDataToStorage = (value: ObjectState) => {
-  localStorage.setItem(OBJECT_KEY, JSON.stringify(value));
+  const objects = { objects: value.objects };
+  localStorage.setItem(OBJECT_KEY, JSON.stringify(objects));
 };
