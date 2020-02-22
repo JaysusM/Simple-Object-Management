@@ -2,10 +2,10 @@ import React, { ChangeEvent } from "react";
 import "./TextField.css";
 
 interface TextFieldProps {
-  placeholder: string,
-  fieldName: string,
-  change: (fieldname: string, value: string) => void,
-  value?: string
+  placeholder: string;
+  fieldName: string;
+  change: (fieldname: string, value: string) => void;
+  value?: string;
 }
 
 const TextField = (props: TextFieldProps) => {
@@ -14,15 +14,13 @@ const TextField = (props: TextFieldProps) => {
   };
 
   return (
-    <div className="textfield-container">
-      <input
-        type="text"
-        className="textfield"
-        onChange={changeValue}
-        placeholder={props.placeholder}
-        value={props.value}
-      />
-    </div>
+    <input
+      type="text"
+      className="textfield"
+      onChange={changeValue}
+      placeholder={props.placeholder}
+      value={props.value}
+    />
   );
 };
 

@@ -1,9 +1,9 @@
 .textfield-container {
-    display: flex;
     margin: 10px;
 }
 
 .textfield {
+    margin: 5px;
     flex: 1;
     padding: 7px 10px;
     border: 1px solid #868686;
