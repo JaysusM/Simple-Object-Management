@@ -13,7 +13,7 @@ import {
   SET_SELECTED_OBJECT,
   DELETE_SELECTED_OBJECT
 } from "./types";
-import { reject, without, contains, max, isEmpty } from "underscore";
+import { reject, without, max, isEmpty } from "underscore";
 import { loadDataFromStorage } from "../../utils/storage";
 
 const objectReducer = (
@@ -58,14 +58,10 @@ const objectReducer = (
     case ADD_RELATIONSHIP_OBJECT: {
       let payload: ObjectModelRelationship = action.payload as ObjectModelRelationship;
       let objects: ObjectModel[] = [...state.objects];
-      objects.forEach((value: ObjectModel) => {
-        if (
-          value.id === payload.parentId &&
-          !contains(value.relationships, payload.childId)
-        ) {
-          value.relationships.push(payload.childId);
-        }
-      });
+      const object: ObjectModel | undefined = objects.find(
+        (value: ObjectModel) => value.id === payload.parentId
+      );
+      if (object) object.relationships.push(payload.childId);
       return { objects: objects, selectedObject: state.selectedObject };
     }
     case DELETE_RELATIONSHIP_OBJECT: {
@@ -83,8 +79,8 @@ const objectReducer = (
       return { objects: state.objects, selectedObject: payload };
     }
     case DELETE_SELECTED_OBJECT: {
-        return { objects: state.objects, selectedObject: undefined };
-      }
+      return { objects: state.objects, selectedObject: undefined };
+    }
     default: {
       return state;
     }
